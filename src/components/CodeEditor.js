@@ -4,8 +4,32 @@ class CodeEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { code: 'var ctx = c.getContext(\'2d\');\nctx.fillStyle = \'red\';\nctx.fillRect(0,0,c.width, c.height);' };
+    this.state = {
+      code: 'var ctx = c.getContext("2d");\nconst palette = ["E63946", "F1FAEE", "A8DADC", "457B9D", "1D3557"];\n\nfor(var i = 0; i < palette.length; i++) {\n\tctx.fillStyle = palette[i];\n\tctx.fillRect(0, 100 * i, c.width, c.height);\n};',
+      error: ''
+    };
     this.codeRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.codeRef.current.value = this.state.code;
+
+    const codeLocalStorage = localStorage.getItem('code');
+    if(codeLocalStorage) {
+      this.setState({code: codeLocalStorage});
+      this.codeRef.current.value = codeLocalStorage;
+    }
+
+  }
+
+  onTextareaKeyDown = (e) => {
+    if(e.keyCode===9 || e.which===9){
+        const textarea = this.codeRef.current;
+        e.preventDefault();
+        var s = textarea.selectionStart;
+        textarea.value = textarea.value.substring(0,textarea.selectionStart) + "\t" + textarea.value.substring(textarea.selectionEnd);
+        textarea.selectionEnd = s+1;
+    }
   }
 
   clientRunJS(code, canvasRef){
@@ -17,8 +41,11 @@ class CodeEditor extends React.Component {
     try {
         this.clearCanvas();
         this.clientRunJS(this.codeRef.current.value, this.props.canvasRef);
-    } catch(err){alert(err)}
-    console.log('code', this.codeRef.current.value);
+        this.setState({error: ''});
+        localStorage.setItem('code', this.codeRef.current.value);
+    } catch(err){
+      this.setState({error: err.message})
+    }
   }
 
   clearCanvas() {
@@ -27,18 +54,29 @@ class CodeEditor extends React.Component {
     canvas.width = canvas.width;
   }
 
+  renderError() {
+    if(this.state.error){
+      return (
+          <div className="ui error message">
+            <div className="header">{this.state.error}</div>
+          </div>
+      );
+    }
+  }
+
   render() {
     return (
       <div>
-        <form className="ui form" onSubmit={e => e.preventDefault()}>
+        <form className="ui form error" onSubmit={e => e.preventDefault()}>
           <div className="field">
-            <label>Wallpaper Code</label>
-            <textarea ref={this.codeRef} value={this.state.code}/>
+            <h4>Wallpaper Code</h4>
+            <textarea ref={this.codeRef} onKeyDown={this.onTextareaKeyDown}/>
           </div>
+          {this.renderError()}
           <div className="field">
-            <button className="ui button white" onClick={() => this.onClickRun()}>Run!</button>
+            <button className="ui button green" onClick={() => this.onClickRun()}>Run!</button>
+            <button className="ui button white" onClick={() => this.clearCanvas()}>Clear</button>
           </div>
-
         </form>
       </div>
     );

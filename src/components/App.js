@@ -13,12 +13,12 @@ class App extends React.Component {
   render() {
     return (
         <div className="ui container grid">
-          <div className="eight wide column" style={{backgroundColor:'red'}}>
+          <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
               <CodeEditor canvasRef={this.canvasRef}/>
             </div>
           </div>
-          <div className="eight wide column" style={{backgroundColor:'blue'}}>
+          <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
               <CanvasPreview canvasRef={this.canvasRef}/>
             </div>
