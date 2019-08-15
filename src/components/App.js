@@ -1,6 +1,7 @@
 import React from 'react';
 import CodeEditor from './CodeEditor';
 import CanvasPreview from './CanvasPreview';
+import SaveList from './SaveList';
 
 
 class App extends React.Component {
@@ -16,6 +17,9 @@ class App extends React.Component {
           <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
               <CodeEditor canvasRef={this.canvasRef}/>
+            </div>
+            <div className="ui segment">
+              <SaveList/>
             </div>
           </div>
           <div className="eight wide column" style={{backgroundColor:''}}>
