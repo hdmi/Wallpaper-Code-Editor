@@ -75,7 +75,8 @@ class CodeEditor extends React.Component {
           {this.renderError()}
           <div className="field">
             <button className="ui button green" onClick={() => this.onClickRun()}>Run!</button>
-            <button className="ui button white" onClick={() => this.clearCanvas()}>Clear</button>
+            <button className="ui button white" onClick={() => this.onClickSave()}>Save</button>
+            <button className="ui button red" onClick={() => this.clearCanvas()}>Clear</button>
           </div>
         </form>
       </div>

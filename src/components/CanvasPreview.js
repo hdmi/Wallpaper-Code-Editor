@@ -29,6 +29,9 @@ class CanvasPreview extends React.Component {
             style={{width: '90%'}}
             ref={this.props.canvasRef}
             onClick={this.onClickCanvas} />
+          <div className="">
+            <span>{`${height} x ${width}`}</span>
+          </div>
         </div>
       </div>
     );

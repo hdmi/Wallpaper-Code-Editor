@@ -5,7 +5,7 @@ class SaveList extends React.Component {
 
     render() {
       return (
-        <div className="ui small images"> SaveList </div>
+        <div className="ui small images"> <img className="ui image"></img> </div>
       );
     }
 }
