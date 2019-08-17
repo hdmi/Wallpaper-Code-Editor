@@ -1,4 +1,5 @@
 import React from 'react';
+import {Wallpaper} from '../wallpaperDS';
 
 class CodeEditor extends React.Component {
 
@@ -46,6 +47,14 @@ class CodeEditor extends React.Component {
     } catch(err){
       this.setState({error: err.message})
     }
+  }
+
+  onClickSave = () => {
+    const newWallpaper = {
+      ...Wallpaper,
+      code: this.state.code,
+      thumbnail: ''};
+    console.log('new wallappwr', newWallpaper);
   }
 
   clearCanvas() {
