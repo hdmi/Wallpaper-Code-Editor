@@ -1,8 +1,8 @@
 import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS} from '../actions/types';
+import {Wallpaper} from '../wallpaper';
 
 const INITIAL_STATE = {
-  canvasReference: null,
-  wallpaper: null
+  wallpaper: Wallpaper
 }
 
 export default (state = INITIAL_STATE, action) => {

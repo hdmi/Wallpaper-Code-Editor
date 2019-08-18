@@ -1,12 +1,7 @@
 import React from 'react';
-import canvas from 'canvas';
+import {connect} from 'react-redux';
 
 class CanvasPreview extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {height: 1920, width: 1080, ratio: 1, imgBlob: null };
-  }
 
   onClickCanvas = (e) => {
     const a = document.createElement('a');
@@ -16,8 +11,16 @@ class CanvasPreview extends React.Component {
     a.click();
   }
 
+  //TODO: Draw canvas on state update
+  componentDidMount() {}
+  componentDidUpdate() {}
+
+  clientRunJS(code, canvasRef){
+    return Function('"use strict";return function(c){' + code + '}', )()(canvasRef.current);
+  }
+
   render() {
-    const {height, width, ratio} = this.state;
+    const {height, width, ratio} = this.props.wallpaper;
 
     return (
       <div>
@@ -27,7 +30,6 @@ class CanvasPreview extends React.Component {
             height={height*ratio}
             width={width*ratio}
             style={{width: '90%'}}
-            ref={this.props.canvasRef}
             onClick={this.onClickCanvas} />
           <div className="">
             <span>{`${height} x ${width}`}</span>
@@ -38,5 +40,8 @@ class CanvasPreview extends React.Component {
   }
 
 }
+const mapStateToProps = (state) => {
+  return {wallpaper: state.canvasReducer.wallpaper};
+}
 
-export default CanvasPreview;
+export default connect(mapStateToProps)(CanvasPreview);

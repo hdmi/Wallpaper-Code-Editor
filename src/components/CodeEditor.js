@@ -1,12 +1,13 @@
 import React from 'react';
-import {Wallpaper} from '../wallpaperDS';
+import {Wallpaper} from '../wallpaper';
+import {connect} from 'react-redux';
+import {drawCanvas, editCanvas} from '../actions';
 
 class CodeEditor extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      code: 'var ctx = c.getContext("2d");\nconst palette = ["E63946", "F1FAEE", "A8DADC", "457B9D", "1D3557"];\n\nfor(var i = 0; i < palette.length; i++) {\n\tctx.fillStyle = palette[i];\n\tctx.fillRect(0, 100 * i, c.width, c.height);\n};',
       error: ''
     };
     this.codeRef = React.createRef();
@@ -17,7 +18,9 @@ class CodeEditor extends React.Component {
 
     const codeLocalStorage = localStorage.getItem('code');
     if(codeLocalStorage) {
-      this.setState({code: codeLocalStorage});
+      //this.setState({code: codeLocalStorage});
+      this.props.wallpaper.code = codeLocalStorage;
+      this.props.editCanvas(this.props.wallpaper)
       this.codeRef.current.value = codeLocalStorage;
     }
 
@@ -94,4 +97,8 @@ class CodeEditor extends React.Component {
 
 }
 
-export default CodeEditor;
+const mapStateToProps = (state) => {
+  return {wallpaper: state.canvasReducer.wallpaper};
+}
+
+export default connect(mapStateToProps, {drawCanvas, editCanvas})(CodeEditor);
