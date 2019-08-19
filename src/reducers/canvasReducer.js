@@ -1,4 +1,4 @@
-import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS} from '../actions/types';
+import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS, EDIT_ERROR} from '../actions/types';
 import {Wallpaper} from '../wallpaper';
 
 const INITIAL_STATE = {
@@ -15,6 +15,9 @@ export default (state = INITIAL_STATE, action) => {
       return {...state};
     case DRAW_CANVAS:
     case EDIT_CANVAS:
+    case EDIT_ERROR:
+      console.log('before: ', state);
+      console.log('after: ', {...state, wallpaper: action.payload});
       return {...state, wallpaper: action.payload};
     default:
       return state;

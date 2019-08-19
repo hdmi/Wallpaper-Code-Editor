@@ -7,15 +7,10 @@ class CodeEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      error: ''
-    };
     this.codeRef = React.createRef();
   }
 
   componentDidMount() {
-    this.codeRef.current.value = this.state.code;
-
     const codeLocalStorage = localStorage.getItem('code');
     if(codeLocalStorage) {
       //this.setState({code: codeLocalStorage});
@@ -36,20 +31,11 @@ class CodeEditor extends React.Component {
     }
   }
 
-  clientRunJS(code, canvasRef){
-    return Function('"use strict";return function(c){' + code + '}', )()(canvasRef.current);
-  }
-
   onClickRun = () => {
-    this.setState({code: this.codeRef.current.value})
-    try {
-        this.clearCanvas();
-        this.clientRunJS(this.codeRef.current.value, this.props.canvasRef);
-        this.setState({error: ''});
-        localStorage.setItem('code', this.codeRef.current.value);
-    } catch(err){
-      this.setState({error: err.message})
-    }
+    this.props.drawCanvas({...this.props.wallpaper,
+      code: this.codeRef.current.value,
+      error: ''});
+    //localStorage.setItem('code', this.codeRef.current.value);
   }
 
   onClickSave = () => {
@@ -57,20 +43,14 @@ class CodeEditor extends React.Component {
       ...Wallpaper,
       code: this.state.code,
       thumbnail: ''};
-    console.log('new wallappwr', newWallpaper);
-  }
-
-  clearCanvas() {
-    const canvas = this.props.canvasRef.current;
-    //"Changing" the canvas size resets the canvas (clearRect maintains ctx preferences so is not desirable)
-    canvas.width = canvas.width;
   }
 
   renderError() {
-    if(this.state.error){
+    const {error} = this.props.wallpaper;
+    if(error){
       return (
           <div className="ui error message">
-            <div className="header">{this.state.error}</div>
+            <div className="header">{error}</div>
           </div>
       );
     }

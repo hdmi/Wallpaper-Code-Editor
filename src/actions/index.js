@@ -1,4 +1,4 @@
-import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS} from './types';
+import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS, EDIT_ERROR} from './types';
 
 export const clearCanvas = () => {
   return {
@@ -30,6 +30,13 @@ export const saveCanvas = (wallpaper) => {
 export const downloadCanvas = (wallpaper) => {
   return {
     type: DOWNLOAD_CANVAS,
+    payload: wallpaper
+  }
+};
+
+export const editError = (wallpaper) => {
+  return {
+    type: EDIT_ERROR,
     payload: wallpaper
   }
 };

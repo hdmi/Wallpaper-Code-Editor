@@ -1,6 +1,7 @@
 export const Wallpaper = {
   type: 'WALLPAPER',
   code: '',
+  error: '',
   height: 1920,
   width: 1080,
   ratio: 1,
