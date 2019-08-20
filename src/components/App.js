@@ -1,6 +1,7 @@
 import React from 'react';
 import CodeEditor from './CodeEditor';
 import CanvasPreview from './CanvasPreview';
+import Swatch from './Swatch';
 import SaveList from './SaveList';
 
 
@@ -17,6 +18,7 @@ class App extends React.Component {
           <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
               <CodeEditor canvasRef={this.canvasRef}/>
+              <Swatch />
             </div>
             <div className="ui segment">
               <SaveList/>

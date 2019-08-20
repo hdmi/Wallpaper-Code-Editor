@@ -11,7 +11,8 @@ class CanvasPreview extends React.Component {
 
   onClickCanvas = (e) => {
     const a = document.createElement('a');
-    const image = this.canvasRef.current.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    let image = this.canvasRef.current.toDataURL("image/png")
+    image = image.replace("image/png", "image/octet-stream");
     a.setAttribute('download', 'wallpaper.png');
     a.setAttribute('href', image);
     a.click();
@@ -46,7 +47,7 @@ class CanvasPreview extends React.Component {
   }
 
   clientRunJS(code, canvasRef){
-    return Function('"use strict";return function(c){' + code + '}', )()(canvasRef.current);
+    return Function('"use strict";return function(c, palette){' + code + '}', )()(canvasRef.current, this.props.wallpaper.palette);
   }
 
   clearCanvas() {

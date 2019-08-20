@@ -16,8 +16,6 @@ export default (state = INITIAL_STATE, action) => {
     case DRAW_CANVAS:
     case EDIT_CANVAS:
     case EDIT_ERROR:
-      console.log('before: ', state);
-      console.log('after: ', {...state, wallpaper: action.payload});
       return {...state, wallpaper: action.payload};
     default:
       return state;

@@ -7,5 +7,6 @@ export const Wallpaper = {
   ratio: 1,
   palette: ['E63946', 'F1FAEE', 'A8DADC', '457B9D', '1D3557'],
   thumbnail: '',
-  image: ''
+  image: '',
+  deterministic: true
 };
