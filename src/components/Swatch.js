@@ -2,31 +2,54 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {editCanvas} from '../actions';
 
-const Swatch = (props) => {
+class Swatch extends React.Component {
 
-  const submit = (e) => {
-    e.preventDefault();
-    props.editCanvas
+  constructor(props) {
+    super(props);
+    this.heightRef = React.createRef();
+    this.widthRef = React.createRef();
   }
 
-  const {height, width} = props.wallpaper;
-  //TODO
-  return (
-    <form className="ui form" onSubmit={submit}>
-      <div className="fields">
-        <div className="two fields">
-          <div className="four wide field">
-            <label>Height</label>
-            <input value={height}/>
-          </div>
-          <div className="four wide field">
-            <label>Width</label>
-            <input value={width}/>
-          </div>
+  componentDidMount() {
+    this.heightRef.current.value = this.props.wallpaper.height;
+    this.widthRef.current.value = this.props.wallpaper.width;
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  onPressEnter = e => {
+    if(e.keyCode !==13 || e.which !== 13){
+      return;
+    }
+
+    this.props.editCanvas({
+      height: this.heightRef.current.value,
+      width: this.widthRef.current.value
+    });
+  }
+
+  render() {
+
+    return (
+      <div>
+        <form className="ui form" onSubmit={this.onSubmit}>
+            <h4 class="ui dividing header">Wallpaper properties</h4>
+            <div className="two fields">
+              <div className="three wide field">
+                <label>Height</label>
+                <input ref={this.heightRef} onKeyDown={this.onPressEnter}/>
+              </div>
+              <div className="three wide field">
+                <label>Width</label>
+                <input ref={this.widthRef} onKeyDown={this.onPressEnter}/>
+              </div>
+            </div>
+        </form>
         </div>
-      </div>
-    </form>
-  );
+    );
+  }
 
 }
 

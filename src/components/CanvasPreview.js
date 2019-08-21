@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {editError, drawCanvas} from '../actions';
+import {editError} from '../actions';
 
 class CanvasPreview extends React.Component {
 
@@ -41,7 +41,7 @@ class CanvasPreview extends React.Component {
     try {
         this.clientRunJS(code, this.canvasRef);
     } catch(err) {
-      this.props.editError({...this.props.wallpaper, error: err.message});
+      this.props.editError({error: err.message});
     }
 
   }
@@ -82,4 +82,4 @@ const mapStateToProps = (state) => {
   return {wallpaper: state.canvasReducer.wallpaper};
 }
 
-export default connect(mapStateToProps, {editError, drawCanvas})(CanvasPreview);
+export default connect(mapStateToProps, {editError})(CanvasPreview);

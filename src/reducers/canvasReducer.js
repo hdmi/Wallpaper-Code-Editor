@@ -2,7 +2,8 @@ import {CLEAR_CANVAS, DRAW_CANVAS, EDIT_CANVAS, SAVE_CANVAS, DOWNLOAD_CANVAS, ED
 import {Wallpaper} from '../wallpaper';
 
 const INITIAL_STATE = {
-  wallpaper: Wallpaper
+  wallpaper: Wallpaper,
+  other: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
     case DRAW_CANVAS:
     case EDIT_CANVAS:
     case EDIT_ERROR:
-      return {...state, wallpaper: action.payload};
+      return {...state, wallpaper: {...state.wallpaper, ...action.payload}};
     default:
       return state;
   }
