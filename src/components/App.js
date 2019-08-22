@@ -1,4 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {editCanvas} from '../actions';
+
 import CodeEditor from './CodeEditor';
 import CanvasPreview from './CanvasPreview';
 import Swatch from './Swatch';
@@ -8,8 +11,15 @@ import SaveList from './SaveList';
 class App extends React.Component {
 
   constructor(props) {
-    super(props)
-    this.canvasRef = React.createRef();
+    super(props);
+
+    let wpLocalStorage = localStorage.getItem('wallpaper');
+    if(wpLocalStorage) {
+      wpLocalStorage = JSON.parse(wpLocalStorage);
+      if(!wpLocalStorage.error){
+          this.props.editCanvas({...wpLocalStorage});
+      }
+    }
   }
 
   render() {
@@ -17,7 +27,7 @@ class App extends React.Component {
         <div className="ui container grid">
           <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
-              <CodeEditor canvasRef={this.canvasRef}/>
+              <CodeEditor />
               <Swatch />
             </div>
             <div className="ui segment">
@@ -26,7 +36,7 @@ class App extends React.Component {
           </div>
           <div className="eight wide column" style={{backgroundColor:''}}>
             <div className="ui segment">
-              <CanvasPreview canvasRef={this.canvasRef}/>
+              <CanvasPreview />
             </div>
           </div>
         </div>
@@ -34,4 +44,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(null, {editCanvas})(App);

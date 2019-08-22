@@ -15,10 +15,6 @@ class Swatch extends React.Component {
     this.widthRef.current.value = this.props.wallpaper.width;
   }
 
-  onSubmit = (e) => {
-    e.preventDefault();
-  }
-
   onPressEnter = e => {
     if(e.keyCode !==13 || e.which !== 13){
       return;
@@ -34,8 +30,8 @@ class Swatch extends React.Component {
 
     return (
       <div>
-        <form className="ui form" onSubmit={this.onSubmit}>
-            <h4 class="ui dividing header">Wallpaper properties</h4>
+        <form className="ui form" onSubmit={e => e.preventDefault()}>
+            <h4 className="ui dividing header">Wallpaper properties</h4>
             <div className="two fields">
               <div className="three wide field">
                 <label>Height</label>

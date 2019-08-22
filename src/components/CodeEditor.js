@@ -11,12 +11,7 @@ class CodeEditor extends React.Component {
   }
 
   componentDidMount() {
-    const codeLocalStorage = localStorage.getItem('code');
-    if(codeLocalStorage) {
-      this.props.editCanvas({code: codeLocalStorage})
-      this.codeRef.current.value = codeLocalStorage;
-    }
-
+    this.codeRef.current.value = this.props.wallpaper.code;
   }
 
   onTextareaKeyDown = (e) => {
@@ -34,7 +29,6 @@ class CodeEditor extends React.Component {
       code: this.codeRef.current.value,
       error: ''
     });
-    localStorage.setItem('code', this.codeRef.current.value);
   }
 
   onClickSave = () => {

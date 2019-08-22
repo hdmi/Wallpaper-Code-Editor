@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-
+  console.log("action: ",action)
   switch(action.type){
     case CLEAR_CANVAS:
     case SAVE_CANVAS:
@@ -17,7 +17,13 @@ export default (state = INITIAL_STATE, action) => {
     case DRAW_CANVAS:
     case EDIT_CANVAS:
     case EDIT_ERROR:
-      return {...state, wallpaper: {...state.wallpaper, ...action.payload}};
+      const newState = {...state, wallpaper: {...state.wallpaper, ...action.payload}};
+
+      if(!newState.wallpaper.error){
+        localStorage.setItem('wallpaper', JSON.stringify(newState.wallpaper));
+      }
+
+      return newState;
     default:
       return state;
   }
