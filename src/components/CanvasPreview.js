@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {editError} from '../actions';
+import Iframe from 'react-iframe'
 
 class CanvasPreview extends React.Component {
 
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+    this.iframeRef = React.createRef();
   }
 
   onClickCanvas = (e) => {
@@ -22,6 +24,9 @@ class CanvasPreview extends React.Component {
   componentDidMount() {
     console.log('Canvas MOUNTED')
     this.runCode();
+    //this.iframeRef.current.contentWindow.document.write(b);
+    //console.log('frame: ', this.iframeRef.current.contentWindow.document)
+    //this.iframeRef.current.contentWindow.sendMessage('Sending message from parent', '*')
   }
 
   componentDidUpdate() {
@@ -53,9 +58,19 @@ class CanvasPreview extends React.Component {
   clearCanvas() {
     const canvas = this.canvasRef.current;
     //"Changing" the canvas size resets the canvas (clearRect maintains ctx preferences so is not desirable)
-    canvas.width = canvas.width;
+    //canvas.width = canvas.width;
   }
+/*
+<iframe src="javascript:void(0);" ref={this.iframeRef}>
+  <canvas
+    ref={this.canvasRef}
+    height={height*ratio}
+    width={width*ratio}
+    style={{width: '90%'}}
+    onClick={this.onClickCanvas} />
+</iframe>
 
+*/
   render() {
     const {height, width, ratio} = this.props.wallpaper;
 
@@ -63,12 +78,13 @@ class CanvasPreview extends React.Component {
       <div>
         <h4>CanvasPreview</h4>
         <div className="ui center aligned segment">
-          <canvas
-            ref={this.canvasRef}
-            height={height*ratio}
-            width={width*ratio}
-            style={{width: '90%'}}
-            onClick={this.onClickCanvas} />
+          <div style={{width:"90%", height:"100%", display:"block"}}>
+          <Iframe url="./canvasIframe.html"
+            width="90%"
+            display="inline"
+            style={{overflow:"auto"}}
+            frameBorder="0"/>
+        </div>
           <div className="">
             <span>{`${height} x ${width}`}</span>
           </div>

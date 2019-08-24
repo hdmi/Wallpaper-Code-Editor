@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+  window.addEventListener("message", receiveMessage, false);
+  function receiveMessage(event) {
+    console.log(event);
+  }
+  </script>
+</head>
+<body>
+  <h1 style="text-align:center">CANVAS</h1>
+  <canvas
+  id="canvas"
+  width=1080
+  height=1920
+  style="width:100%"
+  />
+  <script>
+  var c = document.getElementById('canvas');
+  var ctx = c.getContext('2d');
+  var palette = ['E63946', 'F1FAEE', 'A8DADC', '457B9D', '1D3557'];
+  const palette2 = palette.slice();
+
+  for(var i = 0; i < palette.length; i++) {
+    const aux = Math.floor(Math.random() * palette2.length);
+    ctx.fillStyle = palette2[aux];
+    palette2.splice(aux, 1);
+    ctx.fillRect(0, 216 * i, c.width, c.height);
+  }
+  </script>
+</body>
+</html>
