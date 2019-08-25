@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {editError} from '../actions';
-import Iframe from 'react-iframe'
 
 class CanvasPreview extends React.Component {
 
@@ -23,43 +22,20 @@ class CanvasPreview extends React.Component {
   //TODO: Draw canvas on state update
   componentDidMount() {
     console.log('Canvas MOUNTED')
-    this.runCode();
-    //this.iframeRef.current.contentWindow.document.write(b);
-    //console.log('frame: ', this.iframeRef.current.contentWindow.document)
-    //this.iframeRef.current.contentWindow.sendMessage('Sending message from parent', '*')
+    this.iframeRef.current.contentWindow.postMessage(JSON.stringify(this.props.wallpaper), '*')
   }
 
   componentDidUpdate() {
     console.log('Canvas UPDATED')
-    this.clearCanvas();
-    this.runCode();
+    this.iframeRef.current.contentWindow.postMessage(JSON.stringify(this.props.wallpaper), '*')
   }
 
-  runCode() {
 
-    const {code, error} = this.props.wallpaper;
-
-    if(error){
-      return;
-    }
-
-    try {
-        this.clientRunJS(code, this.canvasRef);
-    } catch(err) {
-      this.props.editError({error: err.message});
-    }
-
-  }
 
   clientRunJS(code, canvasRef){
     return Function('"use strict";return function(c, palette){' + code + '}', )()(canvasRef.current, this.props.wallpaper.palette);
   }
 
-  clearCanvas() {
-    const canvas = this.canvasRef.current;
-    //"Changing" the canvas size resets the canvas (clearRect maintains ctx preferences so is not desirable)
-    //canvas.width = canvas.width;
-  }
 /*
 <iframe src="javascript:void(0);" ref={this.iframeRef}>
   <canvas
@@ -79,11 +55,12 @@ class CanvasPreview extends React.Component {
         <h4>CanvasPreview</h4>
         <div className="ui center aligned segment">
           <div style={{width:"90%", height:"100%", display:"block"}}>
-          <Iframe url="./canvasIframe.html"
+          <iframe src="./canvasIframe.html"
             width="90%"
             display="inline"
             style={{overflow:"auto"}}
-            frameBorder="0"/>
+            frameBorder="0"
+            ref={this.iframeRef}/>
         </div>
           <div className="">
             <span>{`${height} x ${width}`}</span>

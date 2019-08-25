@@ -32,10 +32,10 @@ class CodeEditor extends React.Component {
   }
 
   onClickSave = () => {
-    const newWallpaper = {
+    /*const newWallpaper = {
       ...Wallpaper,
       code: this.state.code,
-      thumbnail: ''};
+      thumbnail: ''};*/
     }
 
     renderError() {

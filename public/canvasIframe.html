@@ -2,9 +2,11 @@
 <html>
 <head>
   <script>
+  var wallpaper = {}
   window.addEventListener("message", receiveMessage, false);
   function receiveMessage(event) {
-    console.log(event);
+    wallpaper = JSON.parse(event.data);
+    runCode();
   }
   </script>
 </head>
@@ -12,21 +14,25 @@
   <h1 style="text-align:center">CANVAS</h1>
   <canvas
   id="canvas"
-  width=1080
-  height=1920
   style="width:100%"
+  onClick="onClickCanvas()"
   />
   <script>
   var c = document.getElementById('canvas');
-  var ctx = c.getContext('2d');
-  var palette = ['E63946', 'F1FAEE', 'A8DADC', '457B9D', '1D3557'];
-  const palette2 = palette.slice();
 
-  for(var i = 0; i < palette.length; i++) {
-    const aux = Math.floor(Math.random() * palette2.length);
-    ctx.fillStyle = palette2[aux];
-    palette2.splice(aux, 1);
-    ctx.fillRect(0, 216 * i, c.width, c.height);
+  runCode = () => {
+      c.width = wallpaper.width;
+      c.height = wallpaper.height;
+      return Function('"use strict";return function(c, palette){' + wallpaper.code + '}', )()(c, wallpaper.palette);
+  }
+
+  onClickCanvas = (e) => {
+    var a = document.createElement('a');
+    var image = c.toDataURL("image/png")
+    image = image.replace("image/png", "image/octet-stream");
+    a.setAttribute('download', 'wallpaper.png');
+    a.setAttribute('href', image);
+    a.click();
   }
   </script>
 </body>
