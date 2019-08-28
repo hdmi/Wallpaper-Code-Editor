@@ -1,39 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script>
-  var wallpaper = {}
-  window.addEventListener("message", receiveMessage, false);
-  function receiveMessage(event) {
-    wallpaper = JSON.parse(event.data);
-    runCode();
-  }
-  </script>
-</head>
-<body>
-  <h1 style="text-align:center">CANVAS</h1>
-  <canvas
-  id="canvas"
-  style="width:100%"
-  onClick="onClickCanvas()"
-  />
-  <script>
-  var c = document.getElementById('canvas');
+  <head>
+    <script>
+      var wallpaper = {};
+      var c = document.createElement("canvas");
 
-  runCode = () => {
-      c.width = wallpaper.width;
-      c.height = wallpaper.height;
-      return Function('"use strict";return function(c, palette){' + wallpaper.code + '}', )()(c, wallpaper.palette);
-  }
+      window.addEventListener("message", receiveMessage, false);
 
-  onClickCanvas = (e) => {
-    var a = document.createElement('a');
-    var image = c.toDataURL("image/png")
-    image = image.replace("image/png", "image/octet-stream");
-    a.setAttribute('download', 'wallpaper.png');
-    a.setAttribute('href', image);
-    a.click();
-  }
-  </script>
-</body>
+      function receiveMessage(event) {
+        wallpaper = JSON.parse(event.data);
+        runCode();
+        parent.postMessage(c.toDataURL(), "*");
+      }
+
+      function runCode() {
+        c.width = wallpaper.width;
+        c.height = wallpaper.height;
+        Function(
+          '"use strict";return function(c, palette){' + wallpaper.code + "}"
+        )()(c, wallpaper.palette);
+      }
+    </script>
+  </head>
 </html>
